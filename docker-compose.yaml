@@ -22,7 +22,6 @@ services:
     networks:
       - dev
 
-
   postgres:
     image: postgres
     container_name: easydev-postgres
@@ -47,7 +46,7 @@ services:
     build:
       context: ./v1
     environment:
-      - CONFIG_PATH=/usr/local/bin/config/prod.yaml
+      - CONFIG_PATH=config/prod.yaml
     networks:
       - dev
 
@@ -55,7 +54,7 @@ services:
     build:
       context: ./v2
     environment:
-      - CONFIG_PATH=/usr/local/bin/config/prod.yaml
+      - CONFIG_PATH=config/prod.yaml
     networks:
       - dev
 
