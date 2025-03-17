@@ -17,6 +17,7 @@ services:
       - backend-v1
       - backend-v2
       - frontend
+    restart: always
     networks:
       - dev
 
@@ -40,6 +41,7 @@ services:
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data:rw
+    restart: always
     networks:
       - dev
 
@@ -50,6 +52,7 @@ services:
       - CONFIG_PATH=config/prod.yaml
     depends_on:
       - postgres
+    restart: always
     networks:
       - dev
 
@@ -60,6 +63,7 @@ services:
       - CONFIG_PATH=config/prod.yaml
     depends_on:
       - postgres
+    restart: always
     networks:
       - dev
 
@@ -68,5 +72,6 @@ services:
       - /home/admin/frontend:/mnt/frontend
     build:
       context: ./frontend
+    restart: always
     networks:
       - dev
