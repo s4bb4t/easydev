@@ -1,0 +1,15 @@
+[Unit]
+Description=s4bb4t sAPI
+After=network.target
+
+[Service]
+User=admin
+WorkingDirectory=/home/admin/apps/srest-api
+ExecStart=/home/admin/apps/srest-api/cmd/sapi/sapi
+Restart=always
+RestartSec=4
+StandardOutput=inherit
+EnvironmentFile=/home/admin/apps/srest-api/config.env
+
+[Install]
+WantedBy=multi-user.target

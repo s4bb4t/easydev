@@ -1,0 +1,839 @@
+basePath: /api/v2
+definitions:
+  github_com_sabbatD_srest-api_internal_lib_todoConfig.Meta:
+    properties:
+      totalAmount:
+        type: integer
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_todoConfig.MetaResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+        type: array
+      info:
+        $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoInfo'
+      meta:
+        $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Meta'
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo:
+    properties:
+      created:
+        type: string
+      description:
+        type: string
+      executor:
+        type: string
+      id:
+        type: integer
+      isDone:
+        type: boolean
+      title:
+        type: string
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoInfo:
+    properties:
+      all:
+        type: integer
+      completed:
+        type: integer
+      inWork:
+        type: integer
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest:
+    properties:
+      description:
+        type: string
+      executor:
+        type: string
+      isDone:
+        type: boolean
+      title:
+        type: string
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.AuthData:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+      - login
+      - password
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.Meta:
+    properties:
+      sortBy:
+        type: string
+      sortOrder:
+        type: string
+      totalAmount:
+        type: integer
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.MetaResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        type: array
+      meta:
+        $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.Meta'
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser:
+    properties:
+      email:
+        type: string
+      phoneNumber:
+        type: string
+      username:
+        maxLength: 60
+        minLength: 1
+        type: string
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.Pwd:
+    properties:
+      password:
+        maxLength: 60
+        minLength: 6
+        type: string
+    required:
+      - password
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser:
+    properties:
+      date:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      isBlocked:
+        type: boolean
+      phoneNumber:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    type: object
+  github_com_sabbatD_srest-api_internal_lib_userConfig.User:
+    properties:
+      email:
+        type: string
+      login:
+        maxLength: 60
+        minLength: 2
+        type: string
+      password:
+        maxLength: 60
+        minLength: 6
+        type: string
+      phoneNumber:
+        type: string
+      username:
+        maxLength: 60
+        minLength: 1
+        type: string
+    required:
+      - email
+      - login
+      - password
+      - username
+    type: object
+  internal_http-server_handlers_admin.UpdateRequest:
+    properties:
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
+  internal_http-server_handlers_user.Tokens:
+    properties:
+      accessToken:
+        type: string
+    type: object
+host: easydev.club
+info:
+  contact:
+    email: s4bb4t@yandex.ru
+    name: s4bb4t
+  description: This is a RESTful API service for EasyDev. It provides various user
+    management functionalities such as user registration, authentication, profile
+    updates, and admin operations.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: sAPI
+  version: v0.3.2
+paths:
+  /admin/users:
+    get:
+      description: Fetches a list of users based on optional query parameters such
+        as filters and sorting.
+      parameters:
+        - description: Filter users by username or email
+          in: query
+          name: search
+          type: string
+        - description: Sort by 'email', 'username', or 'id'. Default is 'id'.
+          in: query
+          name: sortBy
+          type: string
+        - description: 'Sort order: ''asc'', ''desc'', or ''none''. Default is ''asc''.'
+          in: query
+          name: sortOrder
+          type: string
+        - description: Filter by block status (true/false)
+          in: query
+          name: isBlocked
+          type: boolean
+        - description: Limit the number of users returned (default is 20)
+          in: query
+          name: limit
+          type: integer
+        - description: Offset for pagination (default is 0)
+          in: query
+          name: offset
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful retrieval of users.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.MetaResponse'
+        "401":
+          description: Unauthorized access. Bearer token missing or invalid.
+          schema:
+            type: string
+        "403":
+          description: Insufficient permissions.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Get all users
+      tags:
+        - admin
+  /admin/users/{id}:
+    delete:
+      description: Deletes a user by their ID.
+      parameters:
+        - description: ID of the user
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User successfully removed.
+          schema:
+            type: string
+        "400":
+          description: Invalid or missing user ID.
+          schema:
+            type: string
+        "401":
+          description: Unauthorized access. Bearer token missing or invalid.
+          schema:
+            type: string
+        "403":
+          description: Insufficient permissions.
+          schema:
+            type: string
+        "404":
+          description: User not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Remove user
+      tags:
+        - admin
+    get:
+      description: Retrieves a user's profile by their ID.
+      parameters:
+        - description: ID of the user
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful retrieval of user profile.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: Invalid or missing user ID.
+          schema:
+            type: string
+        "401":
+          description: Unauthorized access. Bearer token missing or invalid.
+          schema:
+            type: string
+        "403":
+          description: Insufficient permissions.
+          schema:
+            type: string
+        "404":
+          description: User not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Retrieve user's profile
+      tags:
+        - admin
+    put:
+      consumes:
+        - application/json
+      description: Updates the details of a user by accepting a JSON payload.
+      parameters:
+        - description: ID of the user
+          in: path
+          name: id
+          required: true
+          type: integer
+        - description: User data payload
+          in: body
+          name: UserData
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User profile updated successfully.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: Duplicate login or email.
+          schema:
+            type: string
+        "401":
+          description: Unauthorized access. Bearer token missing or invalid.
+          schema:
+            type: string
+        "403":
+          description: Insufficient permissions.
+          schema:
+            type: string
+        "404":
+          description: User not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Update user's profile
+      tags:
+        - admin
+  /admin/users/{id}/block:
+    post:
+      description: Blocks a user by their ID, disabling their account.
+      parameters:
+        - description: ID of the user
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User successfully blocked.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: Invalid or missing user ID.
+          schema:
+            type: string
+        "404":
+          description: User not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Block user
+      tags:
+        - admin
+  /admin/users/{id}/rights:
+    post:
+      consumes:
+        - application/json
+      description: Updates specific fields related to user's rights by accepting a
+        JSON payload.
+      parameters:
+        - description: ID of the user
+          in: path
+          name: id
+          required: true
+          type: integer
+        - description: User data for updating rights
+          in: body
+          name: UserData
+          required: true
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_admin.UpdateRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Rights successfully updated.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: No such field.
+          schema:
+            type: string
+        "404":
+          description: User not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Update user's rights
+      tags:
+        - admin
+  /admin/users/{id}/unblock:
+    post:
+      description: Unblocks a user by their ID, re-enabling their account.
+      parameters:
+        - description: ID of the user
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User successfully unblocked.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: Invalid or missing user ID.
+          schema:
+            type: string
+        "404":
+          description: User not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Unlock user
+      tags:
+        - admin
+  /auth/refresh:
+    post:
+      consumes:
+        - application/json
+      description: Recieve a user's refresh token in JSON format.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Authentication successful. Returns a JWT token.
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_user.Tokens'
+        "400":
+          description: failed to deserialize json request.
+          schema:
+            type: string
+        "401":
+          description: 'Invalid credentials: token is expired - must auth again.'
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      summary: Refresh user's access token
+      tags:
+        - user
+  /auth/signin:
+    post:
+      consumes:
+        - application/json
+      description: Authenticates a user by accepting their login credentials (login
+        and password) in JSON format.
+      parameters:
+        - description: User login credentials
+          in: body
+          name: AuthData
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.AuthData'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Authentication successful. Returns a JWT token.
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_user.Tokens'
+        "400":
+          description: Invalid input.
+          schema:
+            type: string
+        "401":
+          description: Invalid credentials.
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      summary: Authenticate user
+      tags:
+        - user
+  /auth/signup:
+    post:
+      consumes:
+        - application/json
+      description: Handles the registration of a new user by accepting a JSON payload
+        containing user data.
+      parameters:
+        - description: Complete user data for registration
+          in: body
+          name: UserData
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.User'
+      produces:
+        - application/json
+      responses:
+        "201":
+          description: Registration successful. Returns user data.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: Invalid input.
+          schema:
+            type: string
+        "409":
+          description: User already exists.
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      summary: Register a new user
+      tags:
+        - user
+  /todos:
+    get:
+      description: Retrieves all tasks with optional filtering by status (e.g., completed
+        or in-progress).
+      parameters:
+        - description: 'Filter tasks by status: all, completed, or inWork'
+          in: query
+          name: filter
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Tasks retrieved successfully.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.MetaResponse'
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      summary: Retrieve all tasks
+      tags:
+        - todo
+    post:
+      consumes:
+        - application/json
+      description: Creates a new task by accepting a JSON payload with the task's
+        details.
+      parameters:
+        - description: Task data for creating a new task
+          in: body
+          name: UserData
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Task successfully created, returns the created task.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+        "400":
+          description: Invalid request body or missing/incorrect fields.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      summary: Create a new task
+      tags:
+        - todo
+  /todos/{id}:
+    delete:
+      description: Deletes a task by its ID from the URL.
+      parameters:
+        - description: ID of the task to delete
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Task deleted successfully.
+          schema:
+            type: string
+        "400":
+          description: Invalid or missing task ID.
+          schema:
+            type: string
+        "404":
+          description: Task not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      summary: Delete a task by ID
+      tags:
+        - todo
+    get:
+      description: Retrieves a specific task by its ID from the URL.
+      parameters:
+        - description: ID of the task to retrieve
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Task retrieved successfully.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+        "400":
+          description: Invalid or missing task ID.
+          schema:
+            type: string
+        "404":
+          description: Task not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      summary: Retrieve a task by ID
+      tags:
+        - todo
+    put:
+      consumes:
+        - application/json
+      description: Updates an existing task by accepting a JSON payload with the updated
+        task details.
+      parameters:
+        - description: ID of the task to update
+          in: path
+          name: id
+          required: true
+          type: integer
+        - description: Updated task data
+          in: body
+          name: UserData
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Task updated successfully, returns the updated task.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+        "400":
+          description: Invalid request body, missing/incorrect fields, or invalid
+            ID.
+          schema:
+            type: string
+        "404":
+          description: Task not found.
+          schema:
+            type: string
+        "500":
+          description: Internal server error.
+          schema:
+            type: string
+      summary: Update an existing task
+      tags:
+        - todo
+  /user/logout:
+    post:
+      description: Changes user version. Close all sessions.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "401":
+          description: User context not found.
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Logout user
+      tags:
+        - user
+  /user/profile:
+    get:
+      description: Retrieves the full profile of the currently authenticated user.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Returns the user profile data.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: No such user.
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Get user profile
+      tags:
+        - user
+    put:
+      consumes:
+        - application/json
+      description: Updates the user profile with new data provided in the JSON payload.
+      parameters:
+        - description: Updated user's any data
+          in: body
+          name: Userdata
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Profile successfully updated.
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+        "400":
+          description: Login or email already used.
+          schema:
+            type: string
+        "404":
+          description: No such user.
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Update user profile
+      tags:
+        - user
+  /user/profile/reset-password:
+    put:
+      consumes:
+        - application/json
+      description: Updates the user's password with new data provided in the JSON
+        payload.
+      parameters:
+        - description: New password
+          in: body
+          name: Password
+          required: true
+          schema:
+            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.Pwd'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Profile successfully updated.
+          schema:
+            type: string
+        "400":
+          description: failed to deserialize json request.
+          schema:
+            type: string
+        "404":
+          description: No such user.
+          schema:
+            type: string
+        "500":
+          description: Internal error.
+          schema:
+            type: string
+      security:
+        - BearerAuth: [ ]
+      summary: Update user' Password
+      tags:
+        - user
+schemes:
+  - https
+securityDefinitions:
+  BearerAuth:
+    description: 'JWT Bearer token required for accessing protected routes. Format:
+      "Bearer <token>"'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

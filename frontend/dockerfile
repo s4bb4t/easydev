@@ -1,0 +1,27 @@
+# Этап сборки
+FROM golang:1.23.1-alpine AS front_builder
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN GOOS=linux GOARCH=amd64 go build -o /app/main .
+
+FROM alpine:latest
+
+RUN apk add --no-cache nginx
+
+COPY --from=front_builder /app/main /usr/local/bin/main
+
+RUN chmod +x /usr/local/bin/main
+
+COPY ./frontend /usr/local/bin/frontend
+
+COPY ./nginx.conf /etc/nginx/extra-conf.d/nginx.conf
+
+EXPOSE 80
+EXPOSE 443
+
+CMD ["sh", "-c", "nginx && /usr/local/bin/main"]
