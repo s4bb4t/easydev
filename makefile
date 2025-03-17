@@ -1,10 +1,7 @@
 .PHONY: easy_setup
 
 easydeploy:
-	rm -rf certs
 	git pull
-
-	cp -r /home/admin/certs .
 
 	(cd v1/ && CGO_ENABLED=0 GOOS=linux make build)
 	(cd v2/ && CGO_ENABLED=0 GOOS=linux make build)
