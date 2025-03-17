@@ -42,6 +42,9 @@ services:
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data:rw
+    networks:
+      - dev
+
   backend-v1:
     build:
       context: ./v1
