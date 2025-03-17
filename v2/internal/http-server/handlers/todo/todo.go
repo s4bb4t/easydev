@@ -10,10 +10,10 @@ import (
 
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
-	"github.com/sabbatD/srest-api/internal/lib/api/validation"
-	"github.com/sabbatD/srest-api/internal/lib/logger/sl"
-	util "github.com/sabbatD/v2/internal/http-server/handleUtil"
-	t "github.com/sabbatD/v2/internal/lib/todoConfig"
+	util "github.com/s4bb4t/srest-api/internal/http-server/handleUtil"
+	"github.com/s4bb4t/srest-api/internal/lib/api/validation"
+	"github.com/s4bb4t/srest-api/internal/lib/logger/sl"
+	t "github.com/s4bb4t/srest-api/internal/lib/todoConfig"
 )
 
 type TodoHandler interface {

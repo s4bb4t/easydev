@@ -2,7 +2,7 @@ package access
 
 import (
 	"context"
-	"github.com/sabbatD/srest-api/internal/database"
+	"github.com/s4bb4t/srest-api/internal/database"
 	"net/http"
 	"strconv"
 	"strings"

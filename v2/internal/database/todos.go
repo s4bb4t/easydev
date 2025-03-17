@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	t "github.com/sabbatD/v2/internal/lib/todoConfig"
+	t "github.com/s4bb4t/srest-api/internal/lib/todoConfig"
 )
 
 func (s *Storage) Create(t t.TodoRequest) (int64, error) {

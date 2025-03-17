@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/lib/pq"
-	"github.com/sabbatD/srest-api/internal/password"
-	u "github.com/sabbatD/v2/internal/lib/userConfig"
+	u "github.com/s4bb4t/srest-api/internal/lib/userConfig"
+	"github.com/s4bb4t/srest-api/internal/password"
 )
 
 func (s *Storage) Add(u u.User) (int, error) {

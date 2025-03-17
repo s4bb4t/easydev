@@ -1,4 +1,4 @@
-module github.com/sabbatD/srest-api
+module github.com/s4bb4t/srest-api
 
 go 1.23.0
 

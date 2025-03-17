@@ -6,19 +6,19 @@ import (
 
 	"log/slog"
 
-	_ "github.com/sabbatD/v2/docs"
+	_ "github.com/s4bb4t/srest-api/docs"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/sabbatD/srest-api/internal/config"
-	"github.com/sabbatD/srest-api/internal/http-server/handlers/admin"
-	"github.com/sabbatD/srest-api/internal/http-server/handlers/todo"
-	"github.com/sabbatD/srest-api/internal/http-server/handlers/user"
-	sdb "github.com/sabbatD/v2/internal/database"
+	"github.com/s4bb4t/srest-api/internal/config"
+	sdb "github.com/s4bb4t/srest-api/internal/database"
+	"github.com/s4bb4t/srest-api/internal/http-server/handlers/admin"
+	"github.com/s4bb4t/srest-api/internal/http-server/handlers/todo"
+	"github.com/s4bb4t/srest-api/internal/http-server/handlers/user"
 	httpSwagger "github.com/swaggo/http-swagger"
 
-	"github.com/sabbatD/srest-api/internal/lib/api/access"
-	"github.com/sabbatD/srest-api/internal/lib/logger/sl"
+	"github.com/s4bb4t/srest-api/internal/lib/api/access"
+	"github.com/s4bb4t/srest-api/internal/lib/logger/sl"
 )
 
 // @title           sAPI
