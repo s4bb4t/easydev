@@ -47,6 +47,8 @@ services:
       context: ./v1
     environment:
       - CONFIG_PATH=config/prod.yaml
+    depends_on:
+      - postgres
     networks:
       - dev
 
@@ -55,6 +57,8 @@ services:
       context: ./v2
     environment:
       - CONFIG_PATH=config/prod.yaml
+    depends_on:
+      - postgres
     networks:
       - dev
 
