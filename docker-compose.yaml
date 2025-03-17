@@ -26,7 +26,7 @@ services:
     image: postgres
     container_name: easydev-postgres
     ports:
-      - '5432:5432'
+      - '5433:5432'
     command:
       [
         "postgres",
