@@ -1,4 +1,4 @@
-.PHONY: setup_easydev
+.PHONY: easy_setup
 
 easy_setup:
 	git pull
