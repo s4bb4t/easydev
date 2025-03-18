@@ -19,13 +19,13 @@ services:
       - frontend
     restart: always
     networks:
-      - dev
+      - prod
 
   postgres:
     image: postgres
     container_name: easydev-postgres
     ports:
-      - '5433:5432'
+      - '5432:5432'
     command:
       [
         "postgres",
@@ -43,7 +43,7 @@ services:
       - ./data/postgres:/var/lib/postgresql/data:rw
     restart: always
     networks:
-      - dev
+      - prod
 
   backend-v1:
     build:
@@ -52,9 +52,9 @@ services:
       - CONFIG_PATH=config/prod.yaml
     depends_on:
       - postgres
-    #    restart: always
+    restart: always
     networks:
-      - dev
+      - prod
 
   backend-v2:
     build:
@@ -63,9 +63,9 @@ services:
       - CONFIG_PATH=config/prod.yaml
     depends_on:
       - postgres
-    #    restart: always
+    restart: always
     networks:
-      - dev
+      - prod
 
   frontend:
     volumes:
@@ -74,4 +74,4 @@ services:
       context: ./frontend
     restart: always
     networks:
-      - dev
+      - prod
