@@ -53,6 +53,10 @@ func (s *Storage) Auth(u u.AuthData) (user u.TableUser, err error) {
 	var pwd string
 
 	if err = stmt.QueryRow(u.Login).Scan(&pwd); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return user, err
+		}
+
 		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login): %w", op, err)
 	}
 
@@ -68,6 +72,10 @@ func (s *Storage) Auth(u u.AuthData) (user u.TableUser, err error) {
 	var isAdmin bool
 	err = stmt.QueryRow(u.Login).Scan(&user.ID, &user.Username, &user.Email, &user.Date, &user.IsBlocked, &isAdmin)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return user, err
+		}
+
 		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login).Scan(user): %w", op, err)
 	}
 	if user.IsBlocked {
