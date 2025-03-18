@@ -52,7 +52,7 @@ services:
       - CONFIG_PATH=config/prod.yaml
     depends_on:
       - postgres
-    restart: always
+    #    restart: always
     networks:
       - dev
 
@@ -63,7 +63,7 @@ services:
       - CONFIG_PATH=config/prod.yaml
     depends_on:
       - postgres
-    restart: always
+    #    restart: always
     networks:
       - dev
 
