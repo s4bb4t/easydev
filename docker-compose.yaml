@@ -1,5 +1,5 @@
 networks:
-  dev:
+  prod:
     driver: bridge
 
 services:
