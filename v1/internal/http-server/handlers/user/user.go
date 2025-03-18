@@ -1,6 +1,8 @@
 package user
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -153,14 +155,12 @@ func Auth(log *slog.Logger, User UserHandler) http.HandlerFunc {
 
 		user, err := User.Auth(req)
 		if err != nil {
+			if errors.Is(err, sql.ErrNoRows) {
+				log.Info("wrong login or password")
+				http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+				return
+			}
 			util.InternalError(w, r, log, err)
-			return
-		}
-		if user.ID == 0 {
-			log.Info("wrong login or password")
-
-			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
-
 			return
 		}
 
@@ -284,9 +284,7 @@ func Profile(log *slog.Logger, User UserHandler) http.HandlerFunc {
 		if err != nil {
 			if err.Error() == "database.postgres.Get: no such user" {
 				log.Info(err.Error())
-
 				http.Error(w, "No such user", http.StatusBadRequest)
-
 				return
 			}
 			util.InternalError(w, r, log, err)

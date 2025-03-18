@@ -2,6 +2,7 @@
 package user
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -154,14 +155,13 @@ func Auth(log *slog.Logger, User UserHandler) http.HandlerFunc {
 
 		user, err := User.Auth(req)
 		if err != nil {
+			if errors.Is(err, sql.ErrNoRows) {
+				log.Info("wrong login or password")
+				http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+				return
+			}
+
 			util.InternalError(w, r, log, err)
-			return
-		}
-		if user.ID == 0 {
-			log.Info("wrong login or password")
-
-			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
-
 			return
 		}
 
