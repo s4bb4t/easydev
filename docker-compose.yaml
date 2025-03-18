@@ -1,5 +1,5 @@
 networks:
-  easydev-prod:
+  prod:
     driver: bridge
 
 services:
