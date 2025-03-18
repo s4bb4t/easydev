@@ -8,4 +8,4 @@ easydeploy:
 
 	cp -rf /home/admin/frontend ./frontend
 
-	docker compose up
+	docker compose up --build
