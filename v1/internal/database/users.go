@@ -15,7 +15,7 @@ func (s *Storage) Add(u u.User) (int, error) {
 
 	pwd, err := password.HashPassword(u.Password)
 	if err != nil {
-		return 0, fmt.Errorf("%s: %v", op, err)
+		return 0, fmt.Errorf("%s: %w", op, err)
 	}
 
 	var id int
@@ -29,13 +29,13 @@ func (s *Storage) Add(u u.User) (int, error) {
 		if pgErr, ok := err.(*pq.Error); ok && pgErr.Code == "23505" { // Код ошибки 23505 означает нарушение уникальности
 			return 0, fmt.Errorf("%s: user already exists", op)
 		}
-		return 0, fmt.Errorf("%s: %v", op, err)
+		return 0, fmt.Errorf("%s: %w", op, err)
 	}
 
 	_, err = s.db.Exec(`insert into public.roles (user_id, role) values ($1, ARRAY['USER'])`, id)
 
 	if err != nil {
-		return 0, fmt.Errorf("%s: INSERT INTO public.roles (user_id, role)\n\tvalues ($1, $2): %v", op, err)
+		return 0, fmt.Errorf("%s: INSERT INTO public.roles (user_id, role)\n\tvalues ($1, $2): %w", op, err)
 	}
 
 	return id, nil
@@ -46,14 +46,14 @@ func (s *Storage) Auth(u u.AuthData) (user u.TableUser, err error) {
 
 	stmt, err := s.db.Prepare(`SELECT password FROM public.users WHERE login = $1`)
 	if err != nil {
-		return user, fmt.Errorf("%s.s.db.Prepare(`SELECT password FROM public.users WHERE login = $1`): %v", op, err)
+		return user, fmt.Errorf("%s.s.db.Prepare(`SELECT password FROM public.users WHERE login = $1`): %w", op, err)
 	}
 	defer stmt.Close()
 
 	var pwd string
 
 	if err = stmt.QueryRow(u.Login).Scan(&pwd); err != nil {
-		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login): %v", op, err)
+		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login): %w", op, err)
 	}
 
 	if err := password.CheckPassword([]byte(pwd), u.Password); err != nil {
@@ -62,13 +62,13 @@ func (s *Storage) Auth(u u.AuthData) (user u.TableUser, err error) {
 
 	stmt, err = s.db.Prepare(`SELECT id, username, email, date, is_blocked, is_admin FROM public.users WHERE login = $1`)
 	if err != nil {
-		return user, fmt.Errorf("%s.s.db.Prepare(`SELECT id, username, email, date, is_blocked, is_admin FROM public.users WHERE login = $1`): %v", op, err)
+		return user, fmt.Errorf("%s.s.db.Prepare(`SELECT id, username, email, date, is_blocked, is_admin FROM public.users WHERE login = $1`): %w", op, err)
 	}
 
 	var isAdmin bool
 	err = stmt.QueryRow(u.Login).Scan(&user.ID, &user.Username, &user.Email, &user.Date, &user.IsBlocked, &isAdmin)
 	if err != nil {
-		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login).Scan(user): %v", op, err)
+		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login).Scan(user): %w", op, err)
 	}
 	if user.IsBlocked {
 		user.Roles = append(user.Roles, "USER")
@@ -82,12 +82,12 @@ func (s *Storage) Auth(u u.AuthData) (user u.TableUser, err error) {
 			user.Roles = append(user.Roles, "USER")
 
 			if err != nil {
-				return user, fmt.Errorf("%s: %v", op, err)
+				return user, fmt.Errorf("%s: %w", op, err)
 			}
 
 			return user, nil
 		}
-		return user, fmt.Errorf("%s/select role from roles where user_id = $1: %v", op, err)
+		return user, fmt.Errorf("%s/select role from roles where user_id = $1: %w", op, err)
 	}
 
 	return user, nil
@@ -144,22 +144,22 @@ func (s *Storage) Remove(id int) (int64, error) {
 		WHERE id = $1
 	`)
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 	defer stmt.Close()
 
 	res, err := stmt.Exec(id)
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 
 	n, err := res.RowsAffected()
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 
 	if n == 0 {
-		return n, fmt.Errorf("%s: no users with id: %v", op, id)
+		return n, fmt.Errorf("%s: no users with id: %d", op, id)
 	}
 
 	return n, nil
@@ -201,12 +201,12 @@ func (s *Storage) All(q u.GetAllQuery) (result u.MetaResponse, E error) {
 
 	rows, err := s.db.Query(query, qParams...)
 	if err != nil {
-		return result, fmt.Errorf("%s: users req %v", op, err)
+		return result, fmt.Errorf("%s: users req %w", op, err)
 	}
 
 	err = s.db.QueryRow(metaQuery, mParams...).Scan(&result.Meta.TotalAmount)
 	if err != nil {
-		return result, fmt.Errorf("%s: meta req %v", op, err)
+		return result, fmt.Errorf("%s: meta req %w", op, err)
 	}
 
 	defer rows.Close()
@@ -218,11 +218,11 @@ func (s *Storage) All(q u.GetAllQuery) (result u.MetaResponse, E error) {
 		user.Roles = []string{"USER"}
 
 		if err := rows.Scan(&user.ID, &user.Username, &user.Email, &user.Date, &user.IsBlocked, &isAdmin, &user.PhoneNumber); err != nil {
-			return result, fmt.Errorf("%s: user scan %v", op, err)
+			return result, fmt.Errorf("%s: user scan %w", op, err)
 		}
 
 		if err := s.db.QueryRow(`select role from public.roles where user_id = $1`, user.ID).Scan(pq.Array(&user.Roles)); err != nil && !errors.Is(err, sql.ErrNoRows) {
-			return result, fmt.Errorf("%s: roles scan %v", op, err)
+			return result, fmt.Errorf("%s: roles scan %w", op, err)
 		}
 
 		users = append(users, user)
@@ -243,7 +243,7 @@ func (s *Storage) Get(id int) (u.TableUser, error) {
 	err := s.db.QueryRow(`SELECT id, username, email, date, is_blocked, is_admin, phone_number FROM public.users WHERE id = $1`, id).
 		Scan(&user.ID, &user.Username, &user.Email, &user.Date, &user.IsBlocked, &isAdmin, &user.PhoneNumber)
 	if err != nil {
-		return u.TableUser{}, fmt.Errorf("%s: %v", op, err)
+		return u.TableUser{}, fmt.Errorf("%s: %w", op, err)
 	}
 
 	err = s.db.QueryRow(`select role from public.roles where user_id = $1;`, id).Scan(pq.Array(&user.Roles))
@@ -254,12 +254,12 @@ func (s *Storage) Get(id int) (u.TableUser, error) {
 			user.Roles = append(user.Roles, "USER")
 
 			if err != nil {
-				return u.TableUser{}, fmt.Errorf("%s: %v", op, err)
+				return u.TableUser{}, fmt.Errorf("%s: %w", op, err)
 			}
 
 			return user, nil
 		}
-		return u.TableUser{}, fmt.Errorf("%s: %v", op, err)
+		return u.TableUser{}, fmt.Errorf("%s: %w", op, err)
 	}
 
 	return user, nil
@@ -290,28 +290,28 @@ func (s *Storage) UpdateField(field string, id int, val any) (int64, error) {
 	case "block":
 		field = "is_blocked"
 	default:
-		return -2, fmt.Errorf("%s: no such field: %v", op, field)
+		return -2, fmt.Errorf("%s: no such field: %s", op, field)
 	}
 	query := fmt.Sprintf(`UPDATE public.users SET %s = $1 WHERE id = $2`, field)
 
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v with parameters:%v, %v, %v", op, err, field, id, val)
+		return -1, fmt.Errorf("%s: %w with parameters:%v, %v, %v", op, err, field, id, val)
 	}
 	defer stmt.Close()
 
 	res, err := stmt.Exec(val, id)
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v with parameters:%v, %v, %v", op, err, field, id, val)
+		return -1, fmt.Errorf("%s: %w with parameters:%v, %v, %v", op, err, field, id, val)
 	}
 
 	n, err := res.RowsAffected()
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v with parameters:%v, %v, %v", op, err, field, id, val)
+		return -1, fmt.Errorf("%s: %w with parameters:%v, %v, %v", op, err, field, id, val)
 	}
 
 	if n == 0 {
-		return n, fmt.Errorf("%s: no users with id: %v", op, id)
+		return n, fmt.Errorf("%s: no users with id: %d", op, id)
 	}
 
 	return n, nil
@@ -326,7 +326,7 @@ func (s *Storage) UpdateUser(u u.PutUser, id int) (int64, error) {
 
 	tx, err := s.db.Begin()
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 
 	defer tx.Rollback()
@@ -334,7 +334,7 @@ func (s *Storage) UpdateUser(u u.PutUser, id int) (int64, error) {
 	if u.Username != "" {
 		_, err = tx.Exec(`UPDATE public.users SET username = $1 WHERE id = $2`, u.Username, id)
 		if err != nil {
-			return -1, fmt.Errorf("%s: %v", op, err)
+			return -1, fmt.Errorf("%s: %w", op, err)
 		}
 	}
 
@@ -342,12 +342,12 @@ func (s *Storage) UpdateUser(u u.PutUser, id int) (int64, error) {
 		var exists bool
 		stmt, err := s.db.Prepare(`SELECT EXISTS (SELECT 1 FROM public.users WHERE email = $1)`)
 		if err != nil {
-			return -1, fmt.Errorf("%s: %v", op, err)
+			return -1, fmt.Errorf("%s: %w", op, err)
 		}
 		defer stmt.Close()
 
 		if err = stmt.QueryRow(u.Email).Scan(&exists); err != nil {
-			return -1, fmt.Errorf("%s: %v", op, err)
+			return -1, fmt.Errorf("%s: %w", op, err)
 		}
 		if exists {
 			return -2, fmt.Errorf("%s: email already used", op)
@@ -355,19 +355,19 @@ func (s *Storage) UpdateUser(u u.PutUser, id int) (int64, error) {
 
 		_, err = tx.Exec(`UPDATE public.users SET email = $1 WHERE id = $2`, u.Email, id)
 		if err != nil {
-			return -1, fmt.Errorf("%s: %v", op, err)
+			return -1, fmt.Errorf("%s: %w", op, err)
 		}
 	}
 
 	if u.PhoneNumber != "" {
 		_, err = tx.Exec(`UPDATE public.users SET phone_number = $1 WHERE id = $2`, u.PhoneNumber, id)
 		if err != nil {
-			return -1, fmt.Errorf("%s: %v", op, err)
+			return -1, fmt.Errorf("%s: %w", op, err)
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 
 	return 1, nil
@@ -383,13 +383,13 @@ func (s *Storage) SaveRefreshToken(token string, id int) error {
 		DO UPDATE SET token = EXCLUDED.token, date = NOW() + INTERVAL '8 minutes'
 	`)
 	if err != nil {
-		return fmt.Errorf("%s: %v", op, err)
+		return fmt.Errorf("%s: %w", op, err)
 	}
 	defer stmt.Close()
 
 	_, err = stmt.Exec(id, token)
 	if err != nil {
-		return fmt.Errorf("%s: %v", op, err)
+		return fmt.Errorf("%s: %w", op, err)
 	}
 
 	return nil
@@ -400,13 +400,13 @@ func (s *Storage) RefreshToken(token string) (string, int, error) {
 
 	stmt, err := s.db.Prepare(`SELECT user_id, token FROM public.tokens WHERE token = $1 and date > NOW()`)
 	if err != nil {
-		return "", 0, fmt.Errorf("%s: %v", op, err)
+		return "", 0, fmt.Errorf("%s: %w", op, err)
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.Query(token)
 	if err != nil {
-		return "", 0, fmt.Errorf("%s: %v", op, err)
+		return "", 0, fmt.Errorf("%s: %w", op, err)
 	}
 	defer rows.Close()
 
@@ -414,7 +414,7 @@ func (s *Storage) RefreshToken(token string) (string, int, error) {
 		var res string
 		var id int
 		if err := rows.Scan(&id, &res); err != nil {
-			return "", 0, fmt.Errorf("%s: %v", op, err)
+			return "", 0, fmt.Errorf("%s: %w", op, err)
 		}
 		return token, id, nil
 	}
@@ -432,12 +432,12 @@ func (s *Storage) ChangePassword(u u.Pwd, id int) (int64, error) {
 	var exists bool
 	stmt, err := s.db.Prepare(`SELECT EXISTS (SELECT 1 FROM public.users WHERE id = $1)`)
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 	defer stmt.Close()
 
 	if err = stmt.QueryRow(id).Scan(&exists); err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 	if !exists {
 		return -2, fmt.Errorf("%s: no such user", op)
@@ -445,7 +445,7 @@ func (s *Storage) ChangePassword(u u.Pwd, id int) (int64, error) {
 
 	tx, err := s.db.Begin()
 	if err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 
 	defer tx.Rollback()
@@ -453,17 +453,17 @@ func (s *Storage) ChangePassword(u u.Pwd, id int) (int64, error) {
 	if u.Password != "" {
 		pwd, err := password.HashPassword(u.Password)
 		if err != nil {
-			return 0, fmt.Errorf("%s: %v", op, err)
+			return 0, fmt.Errorf("%s: %w", op, err)
 		}
 
 		_, err = tx.Exec(`UPDATE public.users SET password = $1 WHERE id = $2`, pwd, id)
 		if err != nil {
-			return -1, fmt.Errorf("%s: %v", op, err)
+			return -1, fmt.Errorf("%s: %w", op, err)
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
-		return -1, fmt.Errorf("%s: %v", op, err)
+		return -1, fmt.Errorf("%s: %w", op, err)
 	}
 
 	return 1, nil
@@ -487,15 +487,13 @@ func (s *Storage) Logout(id int) error {
 		DELETE FROM public.tokens
 		WHERE user_id = $1`, id)
 	if err != nil {
-		return fmt.Errorf("%s: %v", op, err)
+		return fmt.Errorf("%s: %w", op, err)
 	}
 
 	return nil
 }
 
 func (s *Storage) UserVersion(id int) int {
-	const op = "database.postgres.UserVersion"
-
 	stmt, err := s.db.Prepare(`SELECT version FROM public.users WHERE id = $1`)
 	if err != nil {
 		return 0
