@@ -1,5 +1,5 @@
 networks:
-  eNetwork:
+  eProd:
     driver: bridge
 
 services:
@@ -19,7 +19,7 @@ services:
       - frontend
     restart: always
     networks:
-      - eNetwork
+      - eProd
 
   postgres:
     image: postgres
@@ -43,7 +43,7 @@ services:
       - ./data/postgres:/var/lib/postgresql/data:rw
     restart: always
     networks:
-      - eNetwork
+      - eProd
 
   backend-v1:
     build:
@@ -54,7 +54,7 @@ services:
       - postgres
     restart: always
     networks:
-      - eNetwork
+      - eProd
 
   backend-v2:
     build:
@@ -65,7 +65,7 @@ services:
       - postgres
     restart: always
     networks:
-      - eNetwork
+      - eProd
 
   frontend:
     volumes:
@@ -74,4 +74,4 @@ services:
       context: ./frontend
     restart: always
     networks:
-      - eNetwork
+      - eProd
