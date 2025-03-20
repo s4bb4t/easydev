@@ -51,17 +51,15 @@ func (s *Storage) Auth(u u.AuthData) (user u.TableUser, err error) {
 	defer stmt.Close()
 
 	var pwd string
-
 	if err = stmt.QueryRow(u.Login).Scan(&pwd); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return user, err
 		}
-
 		return user, fmt.Errorf("%s.stmt.QueryRow(u.Login): %w", op, err)
 	}
 
 	if err := password.CheckPassword([]byte(pwd), u.Password); err != nil {
-		return user, fmt.Errorf("%s.password.CheckPassword: %w", op, err)
+		return user, sql.ErrNoRows
 	}
 
 	stmt, err = s.db.Prepare(`SELECT id, username, email, date, is_blocked, is_admin FROM public.users WHERE login = $1`)

@@ -11,7 +11,7 @@ func HashPassword(password string) ([]byte, error) {
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %v", op, err)
+		return nil, fmt.Errorf("%s: %w", op, err)
 	}
 
 	return hashedPassword, nil
@@ -22,7 +22,7 @@ func CheckPassword(hashedPassword []byte, password string) error {
 
 	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
 	if err != nil {
-		return fmt.Errorf("%s: %v", op, err)
+		return fmt.Errorf("%s: %w", op, err)
 	}
 
 	return nil
