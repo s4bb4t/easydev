@@ -348,7 +348,7 @@ func Block(log *slog.Logger, User AdminHandler) http.HandlerFunc {
 }
 
 // Unblock godoc
-// @Summary Unlock user
+// @Summary Unblock user
 // @Description Unblocks a user by their ID, re-enabling their account.
 // Requires Authorization header with Bearer token for authentication.
 // @Tags admin

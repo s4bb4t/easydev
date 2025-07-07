@@ -419,7 +419,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/users/{id}/unlock": {
+        "/admin/users/{id}/unblock": {
             "post": {
                 "security": [
                     {
@@ -433,7 +433,7 @@ const docTemplate = `{
                 "tags": [
                     "admin"
                 ],
-                "summary": "Unlock user",
+                "summary": "Unblock user",
                 "parameters": [
                     {
                         "type": "integer",
@@ -484,17 +484,6 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Refresh user's access token",
-                "parameters": [
-                    {
-                        "description": "User's refresh token",
-                        "name": "RefreshToken",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/internal_http-server_handlers_user.RefreshToken"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Authentication successful. Returns a JWT token.",
@@ -1193,14 +1182,17 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "isAdmin": {
-                    "type": "boolean"
-                },
                 "isBlocked": {
                     "type": "boolean"
                 },
                 "phoneNumber": {
                     "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "username": {
                     "type": "string"
@@ -1242,17 +1234,11 @@ const docTemplate = `{
         "internal_http-server_handlers_admin.UpdateRequest": {
             "type": "object",
             "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "value": {}
-            }
-        },
-        "internal_http-server_handlers_user.RefreshToken": {
-            "type": "object",
-            "properties": {
-                "refreshToken": {
-                    "type": "string"
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

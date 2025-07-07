@@ -79,7 +79,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Successful retrieval of users.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.MetaResponse"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.MetaResponse"
                         }
                     },
                     "401": {
@@ -131,7 +131,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Successful retrieval of user profile.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -197,7 +197,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.PutUser"
                         }
                     }
                 ],
@@ -205,7 +205,7 @@ const docTemplate = `{
                     "200": {
                         "description": "User profile updated successfully.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -331,7 +331,7 @@ const docTemplate = `{
                     "200": {
                         "description": "User successfully blocked.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -395,7 +395,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Rights successfully updated.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -433,7 +433,7 @@ const docTemplate = `{
                 "tags": [
                     "admin"
                 ],
-                "summary": "Unlock user",
+                "summary": "Unblock user",
                 "parameters": [
                     {
                         "type": "integer",
@@ -447,7 +447,7 @@ const docTemplate = `{
                     "200": {
                         "description": "User successfully unblocked.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -532,7 +532,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.AuthData"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.AuthData"
                         }
                     }
                 ],
@@ -584,7 +584,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.User"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.User"
                         }
                     }
                 ],
@@ -592,7 +592,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Registration successful. Returns user data.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -638,7 +638,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tasks retrieved successfully.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.MetaResponse"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.MetaResponse"
                         }
                     },
                     "500": {
@@ -668,7 +668,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoRequest"
                         }
                     }
                 ],
@@ -676,7 +676,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Task successfully created, returns the created task.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo"
                         }
                     },
                     "400": {
@@ -717,7 +717,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Task retrieved successfully.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo"
                         }
                     },
                     "400": {
@@ -766,7 +766,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoRequest"
                         }
                     }
                 ],
@@ -774,7 +774,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Task updated successfully, returns the updated task.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo"
                         }
                     },
                     "400": {
@@ -899,7 +899,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns the user profile data.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -940,7 +940,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.PutUser"
                         }
                     }
                 ],
@@ -948,7 +948,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Profile successfully updated.",
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                         }
                     },
                     "400": {
@@ -997,7 +997,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.Pwd"
+                            "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.Pwd"
                         }
                     }
                 ],
@@ -1031,7 +1031,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_sabbatD_srest-api_internal_lib_todoConfig.Meta": {
+        "github_com_s4bb4t_srest-api_internal_lib_todoConfig.Meta": {
             "type": "object",
             "properties": {
                 "totalAmount": {
@@ -1039,24 +1039,24 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_todoConfig.MetaResponse": {
+        "github_com_s4bb4t_srest-api_internal_lib_todoConfig.MetaResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo"
+                        "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo"
                     }
                 },
                 "info": {
-                    "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoInfo"
+                    "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoInfo"
                 },
                 "meta": {
-                    "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Meta"
+                    "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Meta"
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo": {
+        "github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo": {
             "type": "object",
             "properties": {
                 "created": {
@@ -1079,7 +1079,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoInfo": {
+        "github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoInfo": {
             "type": "object",
             "properties": {
                 "all": {
@@ -1093,7 +1093,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest": {
+        "github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoRequest": {
             "type": "object",
             "properties": {
                 "description": {
@@ -1110,7 +1110,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.AuthData": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.AuthData": {
             "type": "object",
             "required": [
                 "login",
@@ -1125,7 +1125,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.Meta": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.Meta": {
             "type": "object",
             "properties": {
                 "sortBy": {
@@ -1139,21 +1139,21 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.MetaResponse": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.MetaResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser"
+                        "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser"
                     }
                 },
                 "meta": {
-                    "$ref": "#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.Meta"
+                    "$ref": "#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.Meta"
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.PutUser": {
             "type": "object",
             "properties": {
                 "email": {
@@ -1169,7 +1169,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.Pwd": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.Pwd": {
             "type": "object",
             "required": [
                 "password"
@@ -1182,7 +1182,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser": {
             "type": "object",
             "properties": {
                 "date": {
@@ -1211,7 +1211,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_sabbatD_srest-api_internal_lib_userConfig.User": {
+        "github_com_s4bb4t_srest-api_internal_lib_userConfig.User": {
             "type": "object",
             "required": [
                 "email",

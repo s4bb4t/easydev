@@ -1,22 +1,22 @@
 basePath: /api/v2
 definitions:
-  github_com_sabbatD_srest-api_internal_lib_todoConfig.Meta:
+  github_com_s4bb4t_srest-api_internal_lib_todoConfig.Meta:
     properties:
       totalAmount:
         type: integer
     type: object
-  github_com_sabbatD_srest-api_internal_lib_todoConfig.MetaResponse:
+  github_com_s4bb4t_srest-api_internal_lib_todoConfig.MetaResponse:
     properties:
       data:
         items:
-          $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo'
         type: array
       info:
-        $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoInfo'
+        $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoInfo'
       meta:
-        $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Meta'
+        $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Meta'
     type: object
-  github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo:
+  github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo:
     properties:
       created:
         type: string
@@ -31,7 +31,7 @@ definitions:
       title:
         type: string
     type: object
-  github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoInfo:
+  github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoInfo:
     properties:
       all:
         type: integer
@@ -40,7 +40,7 @@ definitions:
       inWork:
         type: integer
     type: object
-  github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest:
+  github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoRequest:
     properties:
       description:
         type: string
@@ -51,17 +51,17 @@ definitions:
       title:
         type: string
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.AuthData:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.AuthData:
     properties:
       login:
         type: string
       password:
         type: string
     required:
-      - login
-      - password
+    - login
+    - password
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.Meta:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.Meta:
     properties:
       sortBy:
         type: string
@@ -70,16 +70,16 @@ definitions:
       totalAmount:
         type: integer
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.MetaResponse:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.MetaResponse:
     properties:
       data:
         items:
-          $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         type: array
       meta:
-        $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.Meta'
+        $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.Meta'
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.PutUser:
     properties:
       email:
         type: string
@@ -90,16 +90,16 @@ definitions:
         minLength: 1
         type: string
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.Pwd:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.Pwd:
     properties:
       password:
         maxLength: 60
         minLength: 6
         type: string
     required:
-      - password
+    - password
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser:
     properties:
       date:
         type: string
@@ -118,7 +118,7 @@ definitions:
       username:
         type: string
     type: object
-  github_com_sabbatD_srest-api_internal_lib_userConfig.User:
+  github_com_s4bb4t_srest-api_internal_lib_userConfig.User:
     properties:
       email:
         type: string
@@ -137,10 +137,10 @@ definitions:
         minLength: 1
         type: string
     required:
-      - email
-      - login
-      - password
-      - username
+    - email
+    - login
+    - password
+    - username
     type: object
   internal_http-server_handlers_admin.UpdateRequest:
     properties:
@@ -173,37 +173,37 @@ paths:
       description: Fetches a list of users based on optional query parameters such
         as filters and sorting.
       parameters:
-        - description: Filter users by username or email
-          in: query
-          name: search
-          type: string
-        - description: Sort by 'email', 'username', or 'id'. Default is 'id'.
-          in: query
-          name: sortBy
-          type: string
-        - description: 'Sort order: ''asc'', ''desc'', or ''none''. Default is ''asc''.'
-          in: query
-          name: sortOrder
-          type: string
-        - description: Filter by block status (true/false)
-          in: query
-          name: isBlocked
-          type: boolean
-        - description: Limit the number of users returned (default is 20)
-          in: query
-          name: limit
-          type: integer
-        - description: Offset for pagination (default is 0)
-          in: query
-          name: offset
-          type: integer
+      - description: Filter users by username or email
+        in: query
+        name: search
+        type: string
+      - description: Sort by 'email', 'username', or 'id'. Default is 'id'.
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort order: ''asc'', ''desc'', or ''none''. Default is ''asc''.'
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter by block status (true/false)
+        in: query
+        name: isBlocked
+        type: boolean
+      - description: Limit the number of users returned (default is 20)
+        in: query
+        name: limit
+        type: integer
+      - description: Offset for pagination (default is 0)
+        in: query
+        name: offset
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Successful retrieval of users.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.MetaResponse'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.MetaResponse'
         "401":
           description: Unauthorized access. Bearer token missing or invalid.
           schema:
@@ -217,21 +217,21 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Get all users
       tags:
-        - admin
+      - admin
   /admin/users/{id}:
     delete:
       description: Deletes a user by their ID.
       parameters:
-        - description: ID of the user
-          in: path
-          name: id
-          required: true
-          type: integer
+      - description: ID of the user
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: User successfully removed.
@@ -258,25 +258,25 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Remove user
       tags:
-        - admin
+      - admin
     get:
       description: Retrieves a user's profile by their ID.
       parameters:
-        - description: ID of the user
-          in: path
-          name: id
-          required: true
-          type: integer
+      - description: ID of the user
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Successful retrieval of user profile.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: Invalid or missing user ID.
           schema:
@@ -298,33 +298,33 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Retrieve user's profile
       tags:
-        - admin
+      - admin
     put:
       consumes:
-        - application/json
+      - application/json
       description: Updates the details of a user by accepting a JSON payload.
       parameters:
-        - description: ID of the user
-          in: path
-          name: id
-          required: true
-          type: integer
-        - description: User data payload
-          in: body
-          name: UserData
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser'
+      - description: ID of the user
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User data payload
+        in: body
+        name: UserData
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.PutUser'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: User profile updated successfully.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: Duplicate login or email.
           schema:
@@ -346,26 +346,26 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Update user's profile
       tags:
-        - admin
+      - admin
   /admin/users/{id}/block:
     post:
       description: Blocks a user by their ID, disabling their account.
       parameters:
-        - description: ID of the user
-          in: path
-          name: id
-          required: true
-          type: integer
+      - description: ID of the user
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: User successfully blocked.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: Invalid or missing user ID.
           schema:
@@ -379,35 +379,35 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Block user
       tags:
-        - admin
+      - admin
   /admin/users/{id}/rights:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Updates specific fields related to user's rights by accepting a
         JSON payload.
       parameters:
-        - description: ID of the user
-          in: path
-          name: id
-          required: true
-          type: integer
-        - description: User data for updating rights
-          in: body
-          name: UserData
-          required: true
-          schema:
-            $ref: '#/definitions/internal_http-server_handlers_admin.UpdateRequest'
+      - description: ID of the user
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User data for updating rights
+        in: body
+        name: UserData
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http-server_handlers_admin.UpdateRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Rights successfully updated.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: No such field.
           schema:
@@ -421,26 +421,26 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Update user's rights
       tags:
-        - admin
+      - admin
   /admin/users/{id}/unblock:
     post:
       description: Unblocks a user by their ID, re-enabling their account.
       parameters:
-        - description: ID of the user
-          in: path
-          name: id
-          required: true
-          type: integer
+      - description: ID of the user
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: User successfully unblocked.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: Invalid or missing user ID.
           schema:
@@ -454,17 +454,17 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
-      summary: Unlock user
+      - BearerAuth: []
+      summary: Unblock user
       tags:
-        - admin
+      - admin
   /auth/refresh:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Recieve a user's refresh token in JSON format.
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Authentication successful. Returns a JWT token.
@@ -484,22 +484,22 @@ paths:
             type: string
       summary: Refresh user's access token
       tags:
-        - user
+      - user
   /auth/signin:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Authenticates a user by accepting their login credentials (login
         and password) in JSON format.
       parameters:
-        - description: User login credentials
-          in: body
-          name: AuthData
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.AuthData'
+      - description: User login credentials
+        in: body
+        name: AuthData
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.AuthData'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Authentication successful. Returns a JWT token.
@@ -519,27 +519,27 @@ paths:
             type: string
       summary: Authenticate user
       tags:
-        - user
+      - user
   /auth/signup:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Handles the registration of a new user by accepting a JSON payload
         containing user data.
       parameters:
-        - description: Complete user data for registration
-          in: body
-          name: UserData
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.User'
+      - description: Complete user data for registration
+        in: body
+        name: UserData
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.User'
       produces:
-        - application/json
+      - application/json
       responses:
         "201":
           description: Registration successful. Returns user data.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: Invalid input.
           schema:
@@ -554,49 +554,49 @@ paths:
             type: string
       summary: Register a new user
       tags:
-        - user
+      - user
   /todos:
     get:
       description: Retrieves all tasks with optional filtering by status (e.g., completed
         or in-progress).
       parameters:
-        - description: 'Filter tasks by status: all, completed, or inWork'
-          in: query
-          name: filter
-          type: string
+      - description: 'Filter tasks by status: all, completed, or inWork'
+        in: query
+        name: filter
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Tasks retrieved successfully.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.MetaResponse'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.MetaResponse'
         "500":
           description: Internal server error.
           schema:
             type: string
       summary: Retrieve all tasks
       tags:
-        - todo
+      - todo
     post:
       consumes:
-        - application/json
+      - application/json
       description: Creates a new task by accepting a JSON payload with the task's
         details.
       parameters:
-        - description: Task data for creating a new task
-          in: body
-          name: UserData
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest'
+      - description: Task data for creating a new task
+        in: body
+        name: UserData
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Task successfully created, returns the created task.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo'
         "400":
           description: Invalid request body or missing/incorrect fields.
           schema:
@@ -607,18 +607,18 @@ paths:
             type: string
       summary: Create a new task
       tags:
-        - todo
+      - todo
   /todos/{id}:
     delete:
       description: Deletes a task by its ID from the URL.
       parameters:
-        - description: ID of the task to delete
-          in: path
-          name: id
-          required: true
-          type: integer
+      - description: ID of the task to delete
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Task deleted successfully.
@@ -638,22 +638,22 @@ paths:
             type: string
       summary: Delete a task by ID
       tags:
-        - todo
+      - todo
     get:
       description: Retrieves a specific task by its ID from the URL.
       parameters:
-        - description: ID of the task to retrieve
-          in: path
-          name: id
-          required: true
-          type: integer
+      - description: ID of the task to retrieve
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Task retrieved successfully.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo'
         "400":
           description: Invalid or missing task ID.
           schema:
@@ -668,31 +668,31 @@ paths:
             type: string
       summary: Retrieve a task by ID
       tags:
-        - todo
+      - todo
     put:
       consumes:
-        - application/json
+      - application/json
       description: Updates an existing task by accepting a JSON payload with the updated
         task details.
       parameters:
-        - description: ID of the task to update
-          in: path
-          name: id
-          required: true
-          type: integer
-        - description: Updated task data
-          in: body
-          name: UserData
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.TodoRequest'
+      - description: ID of the task to update
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated task data
+        in: body
+        name: UserData
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.TodoRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Task updated successfully, returns the updated task.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_todoConfig.Todo'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_todoConfig.Todo'
         "400":
           description: Invalid request body, missing/incorrect fields, or invalid
             ID.
@@ -708,12 +708,12 @@ paths:
             type: string
       summary: Update an existing task
       tags:
-        - todo
+      - todo
   /user/logout:
     post:
       description: Changes user version. Close all sessions.
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -728,20 +728,20 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Logout user
       tags:
-        - user
+      - user
   /user/profile:
     get:
       description: Retrieves the full profile of the currently authenticated user.
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Returns the user profile data.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: No such user.
           schema:
@@ -751,28 +751,28 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Get user profile
       tags:
-        - user
+      - user
     put:
       consumes:
-        - application/json
+      - application/json
       description: Updates the user profile with new data provided in the JSON payload.
       parameters:
-        - description: Updated user's any data
-          in: body
-          name: Userdata
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.PutUser'
+      - description: Updated user's any data
+        in: body
+        name: Userdata
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.PutUser'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Profile successfully updated.
           schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.TableUser'
+            $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.TableUser'
         "400":
           description: Login or email already used.
           schema:
@@ -786,25 +786,25 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Update user profile
       tags:
-        - user
+      - user
   /user/profile/reset-password:
     put:
       consumes:
-        - application/json
+      - application/json
       description: Updates the user's password with new data provided in the JSON
         payload.
       parameters:
-        - description: New password
-          in: body
-          name: Password
-          required: true
-          schema:
-            $ref: '#/definitions/github_com_sabbatD_srest-api_internal_lib_userConfig.Pwd'
+      - description: New password
+        in: body
+        name: Password
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_s4bb4t_srest-api_internal_lib_userConfig.Pwd'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Profile successfully updated.
@@ -823,12 +823,12 @@ paths:
           schema:
             type: string
       security:
-        - BearerAuth: [ ]
+      - BearerAuth: []
       summary: Update user' Password
       tags:
-        - user
+      - user
 schemes:
-  - https
+- https
 securityDefinitions:
   BearerAuth:
     description: 'JWT Bearer token required for accessing protected routes. Format:

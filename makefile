@@ -1,6 +1,15 @@
-.PHONY: easy_setup
+.PHONY: help generate_swagger easydeploy
+help:
+	@echo "Available commands:"
+	@echo "  generate_swagger  - Generate swagger documentation for v1 and v2"
+	@echo "  easydeploy	   - Pull changes, build v1 and v2, copy frontend and deploy with docker"
+
+generate_swagger:
+	(cd v1/ && swag init -g cmd/main.go -d ./ --parseDependency --parseInternal)
+	(cd v2/ && swag init -g cmd/main.go -d ./ --parseDependency --parseInternal)
 
 easydeploy:
+	make generate_swagger
 	git pull
 
 	(cd v1/ && CGO_ENABLED=0 GOOS=linux make build)
