@@ -10,7 +10,8 @@ generate_swagger:
 
 easydeploy:
 	make generate_swagger
-	git pull
+	git fetch --all
+	git reset --hard origin/$(shell git rev-parse --abbrev-ref HEAD)
 
 	(cd v1/ && CGO_ENABLED=0 GOOS=linux make build)
 	(cd v2/ && CGO_ENABLED=0 GOOS=linux make build)
