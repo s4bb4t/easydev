@@ -10,6 +10,7 @@ generate_swagger:
 
 easydeploy:
 	go install github.com/swaggo/swag/cmd/swag@latest
+	export PATH=$PATH:~/go/bin
 
 	make generate_swagger
 	git fetch --all
