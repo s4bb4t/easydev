@@ -9,6 +9,8 @@ generate_swagger:
 	(cd v2/ && swag init -g cmd/main.go -d ./ --parseDependency --parseInternal)
 
 easydeploy:
+	go install github.com/swaggo/swag/cmd/swag@latest
+
 	make generate_swagger
 	git fetch --all
 	git reset --hard origin/$(shell git rev-parse --abbrev-ref HEAD)
