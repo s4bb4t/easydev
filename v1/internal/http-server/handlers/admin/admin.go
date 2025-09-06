@@ -40,7 +40,7 @@ type AdminHandler interface {
 // @Param sortOrder query string false "Sort order: 'asc', 'desc', or 'none'. Default is 'asc'."
 // @Param isBlocked query bool false "Filter by block status (true/false)"
 // @Param limit query int false "Limit the number of users returned (default is 20)"
-// @Param offset query int false "Offset for pagination (default is 0)"
+// @Param page query int false "Page for pagination (default is 0)"
 // @Security BearerAuth
 // @Success 200 {object} u.MetaResponse "Successful retrieval of users."
 // @Failure 401 {object} string "Unauthorized access. Bearer token missing or invalid."
@@ -97,9 +97,9 @@ func All(log *slog.Logger, Users AdminHandler) http.HandlerFunc {
 			q.Limit = 20
 		}
 
-		offsetStr := r.URL.Query().Get("offset")
-		q.Offset, E = strconv.Atoi(offsetStr)
-		q.Offset *= q.Limit
+		pageStr := r.URL.Query().Get("page")
+		p, E := strconv.Atoi(pageStr)
+		q.Offset = q.Limit * p
 		if E != nil || q.Offset < 0 {
 			q.Offset = 0
 		}
