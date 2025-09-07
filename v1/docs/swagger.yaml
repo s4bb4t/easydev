@@ -187,9 +187,9 @@ paths:
         in: query
         name: limit
         type: integer
-      - description: Offset for pagination (default is 0)
+      - description: Page for pagination (default is 0)
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
