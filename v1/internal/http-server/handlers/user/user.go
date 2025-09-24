@@ -195,6 +195,7 @@ func Auth(log *slog.Logger, User UserHandler) http.HandlerFunc {
 // @Tags user
 // @Accept json
 // @Produce json
+// @Param refreshToken body RefreshToken true "user's refresh token"
 // @Success 200 {object} Tokens "Authentication successful. Returns a JWT token."
 // @Failure 400 {object} string "failed to deserialize json request."
 // @Failure 401 {object} string "Invalid credentials: token is expired - must auth again."
