@@ -141,6 +141,11 @@ definitions:
           type: string
         type: array
     type: object
+  internal_http-server_handlers_user.RefreshToken:
+    properties:
+      refreshToken:
+        type: string
+    type: object
   internal_http-server_handlers_user.Tokens:
     properties:
       accessToken:
@@ -457,6 +462,13 @@ paths:
       consumes:
       - application/json
       description: Recieve a user's refresh token in JSON format.
+      parameters:
+      - description: user's refresh token
+        in: body
+        name: refreshToken
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http-server_handlers_user.RefreshToken'
       produces:
       - application/json
       responses:

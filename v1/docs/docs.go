@@ -484,6 +484,17 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Refresh user's access token",
+                "parameters": [
+                    {
+                        "description": "user's refresh token",
+                        "name": "refreshToken",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_http-server_handlers_user.RefreshToken"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Authentication successful. Returns a JWT token.",
@@ -1239,6 +1250,14 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "internal_http-server_handlers_user.RefreshToken": {
+            "type": "object",
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
                 }
             }
         },
